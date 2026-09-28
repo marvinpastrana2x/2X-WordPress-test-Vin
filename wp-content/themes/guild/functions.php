@@ -28,8 +28,7 @@ function enable_gutenberg_only_on_templates($use_block_editor, $post) {
 
 // Note: Priority is set to 10 to override global disable rules set at priority 5
 add_filter('use_block_editor_for_post', 'enable_gutenberg_only_on_templates', 10, 2);
-function register_my_menu()
-{
+function register_my_menu() {
     register_nav_menus(
         array(
             'top' => __('Top menu'),
@@ -42,34 +41,33 @@ function register_my_menu()
 
 add_action('init', 'register_my_menu');
 
-function custom_theme_assets()
-{
+function custom_theme_assets() {
     $manifest_file = get_template_directory() . '/manifest.json';
-    if(file_exists($manifest_file)){
-        
+    if (file_exists($manifest_file)) {
+
         // Read the manifest file to get the correct asset paths
         $manifest = json_decode(file_get_contents($manifest_file), true);
         $assets = $manifest['assets'];
 
-        wp_enqueue_style('fonts', get_theme_file_uri( $assets['fonts.css'] ), [], $manifest["buildTimestamp"] );
-        wp_enqueue_style('main_style', get_theme_file_uri( $assets['main_css.css'] ), [], $manifest["buildTimestamp"] );
-        
-        if ( is_page_template( 'templates/expert-page.php' ) ) {
-            wp_enqueue_style('team_style', get_theme_file_uri( $assets['team_css.css'] ), ['main_style'], $manifest["buildTimestamp"] );
+        wp_enqueue_style('fonts', get_theme_file_uri($assets['fonts.css']), [], $manifest["buildTimestamp"]);
+        wp_enqueue_style('main_style', get_theme_file_uri($assets['main_css.css']), [], $manifest["buildTimestamp"]);
+
+        if (is_page_template('templates/expert-page.php')) {
+            wp_enqueue_style('team_style', get_theme_file_uri($assets['team_css.css']), ['main_style'], $manifest["buildTimestamp"]);
         }
-        if ( is_page_template( 'templates/gutenberg.php' ) ) {
-            wp_enqueue_style('gutenberg_css', get_theme_file_uri( $assets['gutenberg_css.css'] ), ['main_style'], $manifest["buildTimestamp"] );
+        if (is_page_template('templates/gutenberg.php')) {
+            wp_enqueue_style('gutenberg_css', get_theme_file_uri($assets['gutenberg_css.css']), ['main_style'], $manifest["buildTimestamp"]);
         }
-        
+
         wp_enqueue_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', [], '1.11.0', true);
-        wp_enqueue_script('main_js', get_theme_file_uri( $assets['main_js.js'] ), [], $manifest["buildTimestamp"], true);
+        wp_enqueue_script('main_js', get_theme_file_uri($assets['main_js.js']), [], $manifest["buildTimestamp"], true);
     }
     wp_localize_script(
         'main_js',
         'ajax_object',
-        array( 
-            'ajaxurl' => admin_url( 'admin-ajax.php' ) 
-        ) 
+        array(
+            'ajaxurl' => admin_url('admin-ajax.php')
+        )
     );
 }
 
@@ -80,8 +78,7 @@ add_action('wp_enqueue_scripts', 'custom_theme_assets');
  * @param string filepart
  * @param mixed wp_args style argument list
  */
-function hm_get_template_part($file, $template_args = array(), $cache_args = array())
-{
+function hm_get_template_part($file, $template_args = array(), $cache_args = array()) {
     $template_args = wp_parse_args($template_args);
     $cache_args = wp_parse_args($cache_args);
     if ($cache_args) {
@@ -89,7 +86,7 @@ function hm_get_template_part($file, $template_args = array(), $cache_args = arr
             if (is_scalar($value) || is_array($value)) {
                 $cache_args[$key] = $value;
             } elseif (is_object($value) && method_exists($value, 'get_id')) {
-                $cache_args[$key] = call_user_method('get_id', $value);
+                $cache_args[$key] = $value->get_id();
             }
         }
         if (($cache = wp_cache_get($file, serialize($cache_args))) !== false) {
@@ -124,8 +121,7 @@ function hm_get_template_part($file, $template_args = array(), $cache_args = arr
     echo $data;
 }
 
-function custom_dropdown_values($tag, $unused)
-{
+function custom_dropdown_values($tag, $unused) {
     if ($tag['name'] != 'industry-dropdown') {
         return $tag;
     }
@@ -154,8 +150,7 @@ add_filter('wpcf7_form_tag', 'custom_dropdown_values', 10, 2);
 
 add_filter('shortcode_atts_wpcf7', 'custom_shortcode_atts_wpcf7_filter', 10, 3);
 
-function custom_shortcode_atts_wpcf7_filter($out, $pairs, $atts)
-{
+function custom_shortcode_atts_wpcf7_filter($out, $pairs, $atts) {
     $my_attr = 'industry-dropdown';
 
     if (isset($atts[$my_attr])) {
@@ -165,8 +160,7 @@ function custom_shortcode_atts_wpcf7_filter($out, $pairs, $atts)
     return $out;
 }
 
-function svg($class, $title, $id)
-{
+function svg($class, $title, $id) {
     $uri = get_stylesheet_directory_uri() . '/images/svg/sprite.svg';
     if ($class) {
         $class = 'class="' . $class . '"';
@@ -181,27 +175,25 @@ function svg($class, $title, $id)
     return '<svg ' . $class . ' >' . $title . '<use xlink:href="' . $uri . '#' . $id . '"></use></svg>';
 }
 
-function activeNavbar()
-{
-    ?>
+function activeNavbar() {
+?>
     <script>
-    $(document).ready(function($){
-        $(window).on('scroll', function(){
-            if ($(window).scrollTop() > 10) {
-                $('.navbar').addClass('active');
-            }else{
-                $('.navbar').removeClass('active');
-            }
+        $(document).ready(function($) {
+            $(window).on('scroll', function() {
+                if ($(window).scrollTop() > 10) {
+                    $('.navbar').addClass('active');
+                } else {
+                    $('.navbar').removeClass('active');
+                }
+            });
         });
-    });
     </script>
 <?php
 }
 add_action('wp_footer', 'activeNavbar');
 
 // Custom logo
-function themename_custom_logo_setup()
-{
+function themename_custom_logo_setup() {
     $defaults = array(
         'height' => 100,
         'width' => 400,
@@ -210,26 +202,25 @@ function themename_custom_logo_setup()
         'header-text' => array('site-title', 'site-description'),
     );
     add_theme_support('custom-logo', $defaults);
-    add_theme_support( 'wp-block-styles' );
-    add_theme_support( 'align-wide' );
-    add_theme_support( 'responsive-embeds' );
+    add_theme_support('wp-block-styles');
+    add_theme_support('align-wide');
+    add_theme_support('responsive-embeds');
     add_theme_support('post-thumbnails');
     // Add support for Block Styles.
-    add_theme_support( 'wp-block-styles' );
+    add_theme_support('wp-block-styles');
 
     // Add support for full and wide align images.
-    add_theme_support( 'align-wide' );
+    add_theme_support('align-wide');
 
     // Add support for editor styles.
-    add_theme_support( 'editor-styles' );
+    add_theme_support('editor-styles');
 }
 
 add_action('after_setup_theme', 'themename_custom_logo_setup');
 
 add_filter('get_custom_logo', 'change_logo_class');
 
-function change_logo_class($html)
-{
+function change_logo_class($html) {
 
     // $html = str_replace( 'custom-logo', 'your-custom-class', $html );
     $html = str_replace('custom-logo-link', 'navbar-brand', $html);
@@ -240,33 +231,31 @@ function change_logo_class($html)
 /**
  * Hover dropdown submenu
  */
-function toggle_dropdown()
-{
-    ?>
+function toggle_dropdown() {
+?>
     <script>
-    $(document).ready(function($){
-        $('body')
-            // .on('mouseenter mouseleave','#navbarNav .nav-item', toggleDropdown)
-            .on('click', '.dropdown-menu a', toggleDropdown);
-    });
+        $(document).ready(function($) {
+            $('body')
+                // .on('mouseenter mouseleave','#navbarNav .nav-item', toggleDropdown)
+                .on('click', '.dropdown-menu a', toggleDropdown);
+        });
 
-    function toggleDropdown(e){
-        const _d = $(e.target).closest('#navbarNav .nav-item'),
-            _m = $('.dropdown-menu', _d);
-        setTimeout(function(){
-            const shouldOpen = e.type !== 'click' && _d.is(':hover');
-            _m.toggleClass('show', shouldOpen);
-            _d.toggleClass('show', shouldOpen);
-            //$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
-        }, e.type === 'mouseleave' ? 300 : 0);
-    }
+        function toggleDropdown(e) {
+            const _d = $(e.target).closest('#navbarNav .nav-item'),
+                _m = $('.dropdown-menu', _d);
+            setTimeout(function() {
+                const shouldOpen = e.type !== 'click' && _d.is(':hover');
+                _m.toggleClass('show', shouldOpen);
+                _d.toggleClass('show', shouldOpen);
+                //$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+            }, e.type === 'mouseleave' ? 300 : 0);
+        }
     </script>
 <?php
 }
 add_action('wp_footer', 'toggle_dropdown');
 
-function add_link_atts($atts, $item, $args)
-{
+function add_link_atts($atts, $item, $args) {
     $atts['class'] = "nav-link";
     if ($args->menu == 'Top Submenu') {
         $atts['class'] = "nav-link py-0";
@@ -275,8 +264,7 @@ function add_link_atts($atts, $item, $args)
 }
 add_filter('nav_menu_link_attributes', 'add_link_atts', 10, 3);
 
-function special_nav_class($classes, $item)
-{
+function special_nav_class($classes, $item) {
     if (in_array('menu-item-has-children', $classes)) {
         $classes[] = 'dropdown ';
     }
@@ -290,15 +278,13 @@ function special_nav_class($classes, $item)
 }
 add_filter('nav_menu_css_class', 'special_nav_class', 10, 2);
 
-function get_expert($id)
-{
+function get_expert($id) {
     $post = get_post($id);
 
     return $post;
 }
 
-function get_experts()
-{
+function get_experts() {
     $query = new WP_Query(array(
         'post_type' => 'expert',
         'post_status' => 'publish',
@@ -313,8 +299,7 @@ function get_experts()
 }
 
 // get experts related to the current expert in same industries
-function get_experts_by_term($id)
-{
+function get_experts_by_term($id) {
     $expert = get_expert($id);
     $meta = get_post_meta($expert->ID);
 
@@ -363,42 +348,42 @@ function get_experts_by_term($id)
     return $new_experts;
 }
 
-function get_industries()
-{
+function get_industries() {
     $query = new WP_Query(array(
         'post_type' => 'industry',
         'post_status' => 'publish',
         'posts_per_page' => -1,
+        'orderby' => 'menu_order title',
+        'order'   => 'ASC',
     ));
 
     return $query->get_posts();
 }
 
-function get_locations()
-{
+function get_locations() {
     $query = new WP_Query(array(
         'post_type' => 'location',
         'post_status' => 'publish',
         'posts_per_page' => -1,
+        'orderby' => 'menu_order title',
+        'order'   => 'ASC',
     ));
 
     return $query->get_posts();
 }
 
-function get_childs_by_parent($parent_ID)
-{
+function get_childs_by_parent($parent_ID) {
     $query = new WP_Query(array(
         'post_parent' => $parent_ID,
         'post_type' => 'page',
         'orderby' => 'menu_order',
-        'order' => 'ASC',
+        'order' => 'ASC'
     ));
 
     return $query->get_posts();
 }
 
-function get_custom_single_template($single_template)
-{
+function get_custom_single_template($single_template) {
     global $post;
 
     if ($post->post_type == 'resource') {
@@ -417,14 +402,13 @@ function get_custom_single_template($single_template)
 
 add_filter("single_template", "get_custom_single_template");
 
-function get_latest_post($posttype, $pp)
-{
+function get_latest_post($posttype, $pp) {
     $query = new WP_Query(array(
         'post_type' => $posttype,
         'post_status' => 'publish',
         'posts_per_page' => $pp,
         'order' => 'DESC',
-        'orderby' => 'ID',
+        'orderby' => 'ID'
     ));
     return $query->get_posts();
 }
@@ -436,8 +420,7 @@ if (function_exists('acf_add_options_page')) {
     acf_add_options_sub_page('Footer');
 }
 
-function limit_text($text, $limit)
-{
+function limit_text($text, $limit) {
     if (str_word_count($text, 0) > $limit) {
         $words = str_word_count($text, 2);
         $pos = array_keys($words);
@@ -446,23 +429,21 @@ function limit_text($text, $limit)
     return $text;
 }
 
-function _rm_search_enter()
-{
-    ?>
+function _rm_search_enter() {
+?>
     <script>
-    $('#quicksearch').keydown(function (e) {
-        if (e.keyCode == 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
+        $('#quicksearch').keydown(function(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
     </script>
 <?php
 }
 add_action('wp_footer', '_rm_search_enter');
 
-function _crypt($string, $action = 'e')
-{
+function _crypt($string, $action = 'e') {
     // you may change these values to your own
     $secret_key = 'my_simple_secret_key';
     $secret_iv = 'my_simple_secret_iv';
@@ -481,107 +462,8 @@ function _crypt($string, $action = 'e')
     return $output;
 }
 
-function capital_meta_title($title)
-{
+function capital_meta_title($title) {
     return ucwords(strtolower($title));
 }
 
 add_filter('wpseo_title', 'capital_meta_title');
-
-add_action('wp_ajax_expert_filter', 'expert_filter');
-add_action('wp_ajax_nopriv_expert_filter', 'expert_filter');
-
-function expert_filter(){
-    $meta_query = [];
-
-    if (!empty($_POST['location'])) {
-        $meta_query[] = [
-            'key'     => 'location',
-            'value'   => sanitize_text_field($_POST['location']),
-            'compare' => '='
-        ];
-    }
-
-    if (!empty($_POST['sector'])) {
-        $meta_query[] = [
-            'key'     => 'industry_expertise',
-            'value'   => sanitize_text_field($_POST['sector']),
-            'compare' => 'LIKE'
-        ];
-    }
-
-    $args = [
-        'posts_per_page' => -1,
-        'post_type'      => 'expert',
-        's'              => isset($_POST['custom_input']) ? sanitize_text_field($_POST['custom_input']) : '',
-        'post_status'    => 'publish',
-        'orderby'        => 'date',
-        'order'          => 'ASC',
-    ];
-
-    if(count($meta_query) > 1) {
-
-        $meta_query > array_merge(['relation', 'OR'], $meta_query);
-
-    }
-
-    if (!empty($meta_query)) {
-        $args['meta_query'] = $meta_query;
-    }
-
-    $query = new WP_Query($args);
-
-    ob_start();
-
-    if ( $query->have_posts() ) :
-        while ( $query->have_posts() ) : $query->the_post();
-        $profile_image = get_field('profile_image');
-        //var_dump($profile_image);
-    ?>
-        <div class="col-md-4 mb-5">
-            <div class="team-box-inner">
-                <div class="team-img">
-                    <a href="<?= esc_url(get_permalink()) ?>">
-                        <?php echo wp_get_attachment_image ( 
-                            $profile_image['id'],
-                            'thumbnail', 
-                            false, 
-                            [
-                                "class" => "team-img-single",
-                                "alt"=> esc_attr($query->post_title)
-                            ] 
-                        ); ?>                
-                    </a>
-                </div>
-                <div class="member-name">
-                    <a href="<?= esc_url(get_permalink()) ?>"><?= get_the_Title(); ?></a>
-                </div>
-                <div class="member-desigantion"><?php echo get_field('title',$query->ID); ?></div>
-                <div class="member-address"><?php echo get_field('location',$query->ID)->post_title; ?></div>
-                <div class="social-icons text-center">
-                    <ul class="experts-socials p-0 align-items-center">
-                        
-                    <?php if($email = get_field('email',$query->ID)){ ?>
-                        <li><a href="mailto:<?= $email; ?>"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                    <?php } ?>
-                    <?php if($contact = get_field('contact_no',$query->ID)){ ?>
-                        <li><a href="tel:<?= $contact; ?>"><i class="fa fa-phone" aria-hidden="true"></i></a></li>
-                    <?php } ?>
-                    <?php if($linkedin = get_field('linkedin',$query->ID)){ ?>
-                        <li><a href="<?= $linkedin;?>" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                    <?php } ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    <?php
-            endwhile;
-            wp_reset_postdata();
-        else:
-            echo 'No Expert Found.';
-        endif;
-
-    echo ob_get_clean();
-    die();
-
-}

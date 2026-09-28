@@ -1,1 +1,169 @@
 @use 'variables' as *;
+
+.expert-card {
+	.expert-name {
+    color: $dark-blue;
+    font-family: $verbRegular;
+    font-weight: 700;
+  }
+
+	img {
+		transition: filter .2s ease;
+	}
+
+	&:has(> a:hover),
+	&:has(> a:focus-visible),
+	&:has(.expert-name:hover),
+	&:has(.expert-name:focus-visible) {
+		img {
+			filter: grayscale(100%);
+		}
+
+		.expert-name {
+			color: $green;
+		}
+	}
+}
+
+.roster-filters {
+
+  > div {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .sector-control {
+    padding-right: 16px;
+    border-right: 1px solid $green;
+  }
+
+  .roster-dropdown {
+    position: relative;
+    max-width: 100%;
+  }
+
+  .roster-filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 100%;
+    padding: 6px 8px;
+    border: 0;
+    background: transparent;
+    color: $white;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    .filter-label {
+      min-width: 0;
+      white-space: normal;
+    }
+
+    .fa-caret-down {
+      flex-shrink: 0;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $green;
+      outline-offset: 3px;
+    }
+  }
+
+  .roster-filter-menu {
+    top: 100%;
+    left: 0;
+    width: 257px;
+    min-width: 0;
+    max-width: calc(100vw - 40px);
+    margin: 10px 0 0;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 4px;
+    background-color: $white;
+    list-style: none;
+    z-index: 1000;
+
+    .dropdown-item {
+      padding: 4px 24px;
+      color: $dark-blue;
+      font: inherit;
+      line-height: 1.5;
+      text-align: left;
+      white-space: normal;
+      overflow-wrap: break-word;
+
+      &[aria-pressed="true"] {
+        font-family: $verbBold;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: #f2f2f2;
+        color: $dark-blue;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $green;
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  .roster-search {
+    width: 335px;
+    max-width: 100%;
+    border: 1px solid #999;
+
+    .form-control {
+      min-width: 0;
+      border: 0;
+      border-radius: 0;
+      background-color: transparent;
+      color: $white;
+
+      &::placeholder {
+          color: #aaa;
+      }
+
+      &:focus {
+          box-shadow: none;
+      }
+    }
+
+    &:focus-within {
+      outline: 2px solid $green;
+      outline-offset: 2px;
+    }
+
+    .search-icon {
+      width: 38px;
+      flex-shrink: 0;
+      border-left: 1px solid #999;
+      color: $white;
+    }
+  }
+
+  @media (max-width: 767px) {
+    > div {
+      width: 100%;
+    }
+
+    .sector-control {
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .roster-dropdown,
+    .roster-filter-toggle,
+    .roster-filter-menu,
+    .roster-search {
+      width: 100%;
+    }
+
+    .roster-filter-menu {
+      max-width: 100%;
+    }
+  }
+}

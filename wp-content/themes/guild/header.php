@@ -15,18 +15,18 @@ endif;
 ?>
 
 <!DOCTYPE html>
-<html <?php language_attributes();?>>
+<html <?php language_attributes(); ?>>
 
 <head>
-    <meta charset="<?php bloginfo('charset');?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="<?php echo get_template_directory_uri() . '/images/favicon.ico' ?>">
-    <?php wp_head()?>
-    
+    <?php wp_head() ?>
+
 </head>
 
-<body <?php body_class($body_height);?>>
+<body <?php body_class($body_height); ?>>
 
-<?php get_template_part('template-parts/navigation/navigation', 'top');?>
+    <?php get_template_part('template-parts/navigation/navigation', 'top'); ?>
 
-<div id="main">
+    <div id="main">

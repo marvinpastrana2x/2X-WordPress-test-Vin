@@ -1,48 +1,111 @@
 @use 'variables' as *;
 
 footer {
+	a {
+		color: $white;
+		text-decoration: none;
+		transition: color .2s ease;
+
+		&:hover,
+		&:focus-visible {
+			color: $green;
+			text-decoration: none;
+		}
+	}
+
+	.wp-block-heading {
+		font-size: 18px;
+		margin-bottom: 24px;
+	}
+
+	.wp-block-list {
+		padding-left: 0;
+		list-style: none;
+
+		li {
+			margin-bottom: 8px;
+			cursor: pointer;
+		}
+	}
+
+	.wp-block-button__link {
+		background-color: $green;
+		color: $black;
+		border-radius: 0;
+		text-decoration: none;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: var(--wp--preset--color--secondary);
+			color: var(--wp--preset--color--tertiary);
+			text-decoration: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $white;
+			outline-offset: 3px;
+		}
+	}
 	
 	.footer-menu {
-		ul{
-			padding-left: 0;
-			list-style-type: none;
-			
-			li {
-				a {
-					padding: .2rem 0;
-					&:hover {
-						color: $green;
-					}
-					@media #{$mobile} {
-						padding-top: 0;
-						padding-bottom: 0;
-					}
+
+	ul{
+		padding-left: 0;
+		list-style-type: none;
+		
+		li {
+			a {
+				padding: .2rem 0;
+				&:hover {
+					color: $green;
 				}
-				&.dropdown {
-					font-family: $verbBold;
-					a {
-						padding-left: 0;
-						padding-right: 0;
-						cursor: text;
-						&:hover {
-							color: $white;
-						}
-					}
+				@media #{$mobile} {
+					padding-top: 0;
+					padding-bottom: 0;
 				}
 			}
-			&.sub-menu {
-				li {
-					font-family: $verbRegular;
-					a {
-						padding: .2rem 0;
-						cursor: pointer;
-						&:hover {
-							color: $green;
-						}
+			&.dropdown {
+				font-family: $verbBold;
+				a {
+					padding-left: 0;
+					padding-right: 0;
+					cursor: text;
+					&:hover {
+						color: $white;
 					}
 				}
 			}
 		}
+		&.sub-menu {
+			li {
+				font-family: $verbRegular;
+				a {
+					padding: .2rem 0;
+					cursor: pointer;
+					&:hover {
+						color: $green;
+					}
+				}
+			}
+		}
+	}
+
+	li {
+		transition: color .2s ease;
+
+		&:hover,
+		&:focus-within {
+			color: $green;
+
+			a {
+				color: $green;
+				text-decoration: none;
+		
+			}
+		}
+	}
+		
 	}
 	
 	.socials {
@@ -96,7 +159,13 @@ footer {
 
 .copyright {
 	font-size: 0.8rem;
-	word-spacing: -6px;
+	word-spacing: normal;
+
+	a {
+		display: inline-block;
+		padding: 0 12px;
+	}
+
 	ul {
 		margin-bottom: 0 !important;
 	}

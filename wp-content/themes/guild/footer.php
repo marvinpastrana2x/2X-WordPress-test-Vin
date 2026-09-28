@@ -1,25 +1,25 @@
 </div> <!-- closes <div class=container"> -->
 
 <!-- Footer -->
-<footer id="footer" class="bg-black text-white text-md-left text-left">
+<footer id="footer" class="bg-black text-white text-md-left text-left py-5">
     <div class="container">
 
         <div class="row position-relative align-items-center pb-3">
             <div class="col-3">
-                <img src="<?php echo get_template_directory_uri() ?>/images/the_iron_claw_syndicate_transparent_logo.png" alt="logo">
+                <img class="img-fluid" style="width: 150px; height: auto;" src="<?php echo get_template_directory_uri() ?>/images/the_iron_claw_syndicate_transparent_logo.png" alt="logo">
             </div>
             <div class="col-9">
                 <?php if (is_active_sidebar('custom-footer-text-widget')): ?>
                     <div id="header-widget-area" class="chw-widget-area widget-area pt-3" role="complementary">
-                        <?php dynamic_sidebar('custom-footer-text-widget');?>
+                        <?php dynamic_sidebar('custom-footer-text-widget'); ?>
                     </div>
-                <?php endif;?>
+                <?php endif; ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="footer-menu row pt-3 pb-3">
-                    <?php hm_get_template_part('template-parts/navigation/navigation-footer');?>
+                    <?php hm_get_template_part('template-parts/navigation/navigation-footer'); ?>
                 </div>
                 <div class="socials">
                     <ul class="pl-0">
@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 <div class="copyright pt3">
-                    <?php hm_get_template_part('template-parts/navigation/navigation-below-footer');?>
+                    <?php hm_get_template_part('template-parts/navigation/navigation-below-footer'); ?>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
     </div>
 </footer>
 
-<?php wp_footer()?>
+<?php wp_footer() ?>
 </body>
 
 </html>

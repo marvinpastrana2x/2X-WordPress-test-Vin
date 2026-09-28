@@ -2,38 +2,38 @@
 global $have_bg;
 ?>
 
-<header id="header">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3 <?php echo $have_bg ?>" style="z-index: 100">
+<header id="header" class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark py-3 <?php echo esc_attr($have_bg ?? ''); ?>">
         <div class="container">
             <?php
             if (function_exists('the_custom_logo')) {
                 the_custom_logo();
             } else { ?>
-            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="navbar-brand" rel="home">
-                <img width="1333" height="1392" src="<?php echo get_theme_file_uri( 'images/the_iron_claw_syndicate_transparent_logo.png' ); ?>" class="custom-logo" alt="The Ironclaw Syndicate" decoding="async" fetchpriority="high">
-            </a>
-            <?php 
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="navbar-brand" rel="home">
+                    <img width="1333" height="1392" src="<?php echo get_theme_file_uri('images/the_iron_claw_syndicate_transparent_logo.png'); ?>" class="custom-logo" alt="The Ironclaw Syndicate" decoding="async" fetchpriority="high">
+                </a>
+            <?php
             }
             ?>
-            <?php $blog_info = get_bloginfo( 'name' ); ?>
-            <?php if ( ! empty( $blog_info ) ) : ?>
+            <?php $blog_info = get_bloginfo('name'); ?>
+            <?php if (! empty($blog_info)) : ?>
                 <div class="top_branding">
-                <?php if ( is_front_page() && is_home() ) : ?>
-                    <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-                <?php else : ?>
-                    <p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-                <?php endif; ?>
-                <?php
-                $description = get_bloginfo( 'description', 'display' );
-                if ( $description || is_customize_preview() ) :
-                ?>
-                    <p class="site-description">
-                        <?php echo $description; ?>
-                    </p>
-                <?php endif; ?>
+                    <?php if (is_front_page() && is_home()) : ?>
+                        <h1 class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></h1>
+                    <?php else : ?>
+                        <p class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></p>
+                    <?php endif; ?>
+                    <?php
+                    $description = get_bloginfo('description', 'display');
+                    if ($description || is_customize_preview()) :
+                    ?>
+                        <p class="site-description">
+                            <?php echo $description; ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
-            <button id="navbarToggle" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button id="navbarToggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -64,7 +64,7 @@ global $have_bg;
                         )
                     );
 
-                    /* mobile
+                /* mobile
                     wp_nav_menu(
                         array(
                             'menu' => 'Top Submenu',
@@ -81,35 +81,35 @@ global $have_bg;
 </header>
 
 <script>
-var $=jQuery.noConflict();
+    var $ = jQuery.noConflict();
 
-$(document).ready(function(){
-    $('.navbar-toggler').click(function(){
-        $(this).closest('.navbar-dark').toggleClass('bgfilled');
-    });
+    $(document).ready(function() {
+        $('.navbar-toggler').click(function() {
+            $(this).closest('.navbar-dark').toggleClass('bgfilled');
+        });
 
-    $(window).scroll(function() {
-        var scroll = $(window).scrollTop();
-        //console.log('top: '+scroll);
-        if (scroll >= 100) {
-            $('.navbar').addClass('mbscrollbg');
-        } else {
-            $('.navbar').removeClass('mbscrollbg');
+        $(window).scroll(function() {
+            var scroll = $(window).scrollTop();
+            //console.log('top: '+scroll);
+            if (scroll >= 100) {
+                $('.navbar').addClass('mbscrollbg');
+            } else {
+                $('.navbar').removeClass('mbscrollbg');
+            }
+        });
+
+        //delay hover dropdown menu
+        if ($(window).width() > 767) {
+            /*
+            $('#menu-top-menu .dropdown').click(function() {
+                return false;
+            });
+            */
+            // $('#menu-top-menu .dropdown').hover(function () {
+            //     $(this).children('.sub-menu').stop(true, true).delay(500).fadeIn();
+            // }, function () {
+            //     $(this).children('.sub-menu').stop(true, true).delay(100).fadeOut();
+            // });
         }
     });
-
-    //delay hover dropdown menu
-    if ($(window).width() > 767) {
-        /*
-        $('#menu-top-menu .dropdown').click(function() {
-            return false;
-        });
-        */
-        // $('#menu-top-menu .dropdown').hover(function () {
-        //     $(this).children('.sub-menu').stop(true, true).delay(500).fadeIn();
-        // }, function () {
-        //     $(this).children('.sub-menu').stop(true, true).delay(100).fadeOut();
-        // });
-    }
-});
 </script>
